@@ -15,5 +15,6 @@ Computer-aided dispatch for volunteer first responders
 2. Entity Framework
 3. Javascript/Jquery/Ajax
 4. HTML/CSS.
+5. Azure SQL Server and Azure Web App
 
 Some files were omitted due to privacy concerns. If you would like them please reach out
