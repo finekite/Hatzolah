@@ -1,0 +1,24 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Hatzloah/Web.Release.config
+/Hatzloah/Web.Debug.config
+/Hatzloah/Web.config
+/Hatzloah/packages.config
+/Hatzloah/hatzolah.jpg
+/Hatzloah/Hatzloah.csproj.user
+/Hatzloah/Hatzloah.csproj
+/Hatzloah/Global.asax.cs
+/Hatzloah/Global.asax
+/Hatzloah/favicon.ico
+/Hatzloah/ApplicationInsights.config
+/packages
+/Hatzloah/StoredProcedures
+/Hatzloah/Scripts
+/Hatzloah/Properties
+/Hatzloah/obj
+/Hatzloah/fonts
+/.vs
+/Hatzloah/App_Start/NinjectWebCommon.cs
+/Hatzloah/bin

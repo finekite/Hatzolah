@@ -1,0 +1,443 @@
+﻿@{
+    ViewBag.Title = "Hatzolah Portal";
+}
+<br />
+<br />
+<div class="container col-lg-5 well" style="display: inline-block;">
+    <div class="row">
+        <div class="col-lg-12">
+            <button class="btn btn-danger" onclick="logTheTime('demo')" style="width:90%;">Log Start Time</button>
+        </div>
+    </div>
+    <br />
+    <h4>Hatzolah, What's the address of your emergency?</h4>
+    <div class="row">
+        <div class="col-lg-9">
+            <input id="address" onblur="addAddress()" class="form-control" placeholder="Address" style="width:90%" />
+         </div>
+        <div class="col-lg-3">
+            <input id="apt-num" onblur="addApt()" placeholder="Apt" class="form-control" type="text" style="width:90%" />
+        </div>
+    </div>
+    <br />
+    <a id="map-it-link" target="_blank" hidden>Map it!</a>
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <h4>What is the emergency?</h4>
+            <input id="noc" onblur="addNoc()" class="form-control" type="text" placeholder="NOC" style="width:90%"/>
+        </div>
+    </div>
+    <div id="additional-questions-hidden" hidden>
+        <br />
+        @*<a data-toggle="collapse" data-target="#general-questions" style="float:right">Collapse</a>*@
+        <div id="general-questions" class="row">
+            <div class="col-lg-12">
+                <p><b>General Questions: </b></p>
+            </div>
+            <div class="col-lg-9">
+                <p>1) WHAT’S A GOOD CALL BACK NUMBER?</p>
+            </div>
+            <div class="col-lg-3">
+                <input id="tel" type="text" class="form-control" onblur="addTel()" />
+            </div>
+            <br />
+            <br />
+            <div class="col-lg-9">
+                <p>2) ARE YOU WITH THE PATIENT?</p>
+            </div>
+            <div class="col-lg-3">
+                <input id="input-for-general-questions-with-patient" class="form-control" type="text" />
+            </div>
+            <br />
+            <br />
+            <div class="col-lg-9">
+                <p>3) IS S/HE CONSCIOUS?</p>
+            </div>
+            <div class="col-lg-3">
+                <input id="input-for-general-questions-conscious" class="form-control" type="text" />
+            </div>
+            <br />
+            <br />
+            <div class="col-lg-9">
+                <p>4) BREATHING?</p>
+            </div>
+            <div class="col-lg-3">
+                <input id="input-for-general-questions-breathing" class="form-control" type="text" />
+            </div>
+            <br />
+            <br />
+            <div class="col-lg-9">
+                <p>5) HOW OLD IS S/HE APPROXIMATELY?</p>
+            </div>
+            <div class="col-lg-3">
+                <input id="input-for-general-questions-age" class="form-control" type="text" />
+            </div>
+            <br />
+            <br />
+            <div id="additional-questions-title">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p style="margin-left: 15px;"><b>Additional Questions: </b></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p id="additional-questions"></p>
+                </div>
+            </div>
+            <br />
+            <div class="col-lg-9">
+                <p>6) CAN YOU SEND SOMEONE TO OPEN THE FRONT DOOR? WE ARE ON THE WAY! IF THERE IS A CHANGE IN THE SITUATION, PLEASE CALL US BACK.</p>
+            </div>
+        </div>
+        <br />
+    </div>
+    <br />
+    <h4>Responder 1</h4>
+    <div class="row">
+        <div class="col-lg-9">
+            <input id="responder-1" onblur="addResponder1()" class="form-control" placeholder="Responder 1" style="width:90%"/>
+        </div>
+        <div class="col-lg-1">
+            <button onclick="logTheTime('responder-1-arrived-time')" class="btn btn-danger">Arrived</button>
+        </div>
+    </div>
+    <br />
+    <h4>Responder 2</h4>
+    <div class="row">
+        <div class="col-lg-9">
+            <input id="responder-2" onblur="addResponder2()" class="form-control" placeholder="Responder 2" style="width:90%"/>
+        </div>
+        <div class="col-lg-3">
+            <button onclick="logTheTime('responder-2-arrived-time')" class="btn btn-danger">Arrived</button>
+        </div>
+    </div>
+    <br />
+    <div id="additional-responders">
+    </div>
+    <br />
+    <a onclick="addResponders()">Add Additional Responders</a>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-5 col-lg-offset-1">
+            <button class="btn btn-danger" onclick="logTheTime('EMS-called-time')" style="width:100%">EMS Called Time</button>
+        </div>
+        <div class="col-lg-5">
+            <button class="btn btn-danger" onclick="logTheTime('EMS-arrived-time')" style="width:100%">EMS Arrived Time</button>
+        </div>
+    </div>
+</div>
+<div class="col-lg-1"></div>
+<div id="input-text" class="container col-lg-5 well" style="display: inline-block; overflow:auto">
+    <i id="loader" style="font-size:50px"></i>
+        <div class="row">
+            <div class="col-lg-6">
+                <h4>Start Time:</h4>
+            </div>
+            <div class="col-lg-6">
+                <h4 id="demo"></h4>
+            </div>
+        </div>
+    <hr />
+        <div class="row">
+            <div class="col-lg-6">
+                <h4>Address:</h4>
+            </div>
+            <div class="col-lg-6">
+                <p id="input-address"></p>
+                <p id="input-city" hidden></p>
+            </div>
+        </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-6">
+            <h4 id="cross-roads-title">Cross Roads: </h4>
+        </div>
+        <div class="col-lg-6">
+            <p id="input-cross-roads"></p>
+        </div>
+        <div class="i-frame"></div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>Telephone: </h4>
+        </div>
+        <div class="col-lg-6">
+            <p id="input-tel"></p>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-12">
+            <p id="noc-desc"></p>
+        </div>
+    </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-6">
+                <h4>Full Radio Text</h4>
+            </div>
+            <div class="col-lg-6">
+                <p id="full-text"></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <p id="input-responder-1"></p>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <p id="input-responder-1-call-time"></p>
+                </div>
+                <div class="row">
+                    <p id="responder-1-arrived-time"></p>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-6">
+                <p id="input-responder-2"></p>
+            </div>
+            <div class="col-lg-6">
+                <div class="row">
+                    <p id="input-responder-2-call-time"></p>
+                </div>
+                <div class="row">
+                    <p id="responder-2-arrived-time"></p>
+                </div>
+            </div>
+        </div>
+    <br />
+    <div class="row" id="additional-responder-input" style="margin-left:2px">
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>EMS Called Time:</h4>
+        </div>
+        <div class="col-lg-6">
+            <h4 id="EMS-called-time"></h4>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-6">
+            <h4>EMS Arrived Time:</h4>
+        </div>
+        <div class="col-lg-6">
+            <h4 id="EMS-arrived-time"></h4>
+        </div>
+    </div>
+    <br />
+    @*@Html.ActionLink("Prin Pdf", "PrintPdf", "Home", new { id = "printPDfText()" })*@
+    <button onclick="printPdf()" class="col-lg-12 btn btn-danger">Print Pdf (Doesn't work yet)</button>
+</div>
+<script>
+
+    function logTheTime(id) {
+        var d = new Date();
+        var n = d.toLocaleTimeString();
+        document.getElementById(id).innerHTML = n;
+    }
+
+    function addAddress() {
+        $('#loader').addClass('fa fa-refresh fa-spin');
+        var d = $('#address').val();
+        var geocoder = new google.maps.Geocoder();
+        var address = document.getElementById('address').value;
+        var googleMapsLink = "https://www.google.com/maps/place/"
+
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var latitude = results[0].geometry.location.lat();
+                var longitude = results[0].geometry.location.lng();
+                var appendurl = "lat=" + latitude + "&lng=" + longitude + "&username=gutezach";
+                $.ajax({
+                    headers: { "Accept": "application/json" },
+                    type: 'GET',
+                    url: 'http://api.geonames.org/findNearestIntersectionJSON?' + appendurl,
+                    crossDomain: true,
+                    success: function (data, textStatus, request) {
+                        debugger;
+                        $('#loader').hide();
+                        document.getElementById("input-address").innerHTML = d;
+                        addApt();
+                        $('#cross-roads-title').show();
+                        document.getElementById("input-cross-roads").innerHTML = data.intersection.street1 + " and " + data.intersection.street2;
+                        document.getElementById("input-city").innerHTML = data.intersection.placename;
+                        $('#map-it-link').attr("href", "https://www.google.com/maps/place/" + address).show();
+                        address = address.replace(/,/g, '').replace(/ /g, '+');
+                        $('.i-frame').empty();
+                        var url = "https://www.google.com/maps/embed/v1/search?key=AIzaSyBL9zxve1LUJcZLtkulO_ARoR1Qw3NhGWg&q=" + address;
+                        $('<iframe width= "400" height= "300" frameborder= "0" style= "border:3px" src="' + url + '"></iframe>').appendTo('.i-frame');
+                        google.maps.event.addListener(map, 'click', function (event) {
+                            alert("Latitude: " + event.latLng.lat() + " " + ", longitude: " + event.latLng.lng());
+                        });
+                        fullText();
+                    }
+                });
+            }
+        });
+    }
+    function addNoc() {
+        debugger;
+        $('#loader').show();
+        var d = $('#noc').val();
+        var splitNoc = d.split(".");
+        d = splitNoc[0];
+        $.ajax({
+            type: 'GET',
+            data: {
+                description: d
+            },
+            url: '@Url.Action("GetNoc", "Home")',
+            success: function (data) {
+                $('#loader').hide();
+                document.getElementById("noc-desc").innerHTML = data;
+                var question = $("#question").html();
+                if (question != null && question.length > 0) {
+                    document.getElementById("additional-questions").innerHTML = question;
+                    $('#additional-questions-title').show();
+                    $('#additional-questions-hidden').show();
+                }
+                else {
+                    $('#additional-questions-hidden').show();
+                    $('#additional-questions-title').hide();
+                }
+                fullText();
+            }
+        });
+    }
+
+    function addResponder1() {
+        var responder1 = $('#responder-1').val();
+        var address = $('#address').val();
+        var addressSplit = address.split(",");
+        address = addressSplit[0];
+        var city = $('#input-city').text();
+        var noc = $('#noc').val();
+        var aptNum = $('#apt-num').val();
+        if (aptNum.length > 0) {
+            document.getElementById("input-responder-1").innerHTML = responder1 + " please proceed to " + address + " Apt: " + aptNum + " in " + city;
+        }
+        else {
+            document.getElementById("input-responder-1").innerHTML = responder1 + " please proceed to " + address + " in " + city;
+        }
+        var d = new Date();
+        var responder1time = d.toLocaleTimeString();
+        document.getElementById("input-responder-1-call-time").innerHTML = responder1 + " responded at " + responder1time;
+    }
+
+    function addResponder2() {
+        debugger;
+        var responder2 = $('#responder-2').val();
+        var address = $('#address').val();
+        var addressSplit = address.split(",");
+        address = addressSplit[0];
+        var city = $('#input-city').text();
+        var noc = $('#noc').val();
+        var aptNum = $('#apt-num').val();
+        if (aptNum.length > 0) {
+            document.getElementById("input-responder-2").innerHTML = responder2 + " please proceed to " + address + " Apt: " + aptNum + " in " + city;
+        }
+        else {
+            document.getElementById("input-responder-2").innerHTML = responder2 + " please proceed to " + address + " in " + city;
+        }
+        var d = new Date();
+        var responder1time = d.toLocaleTimeString();
+        document.getElementById("input-responder-2-call-time").innerHTML = responder2 + " responded at " + responder1time;
+    }
+
+    function addAdditionalResponder(i) {
+        var additionalResponder = $('#additional-responder' + i).val();
+        var address = $('#address').val();
+        var addressSplit = address.split(",");
+        address = addressSplit[0];
+        var city = $('#input-city').text();
+        var noc = $('#noc').val();
+        var aptNum = $('#apt-num').val();
+        $('#additional-responder-input').append('<div class=\"row\"><div class=\"col-lg-6\"><p id=\"input-additional-responder'+i+'\"><\/p><\/div><div class=\"col-lg-6\"><div class=\"row\"><p id=\"input-additional-responder-call-time'+i+'\"><\/p><\/div><div class=\"row\"><p id=\"additional-responder-arrived-time'+i+'\"><\/p><\/div><\/div><\/div>');
+        if (aptNum.length > 0) {
+            document.getElementById("input-additional-responder" + i).innerHTML = additionalResponder + " please proceed to " + address + " Apt: " + aptNum + " in " + city;
+        }
+        else {
+            document.getElementById("input-additional-responder" + i).innerHTML = additionalResponder + " please proceed to " + address + " in " + city;
+        }
+        var d = new Date();
+        var responder1time = d.toLocaleTimeString();
+        document.getElementById("input-additional-responder-call-time"+i).innerHTML = additionalResponder + " responded at " + responder1time;
+    }
+
+
+    function fullText() {
+        debugger;
+        var crossroads = $('#input-cross-roads').text();
+        var city = $('#input-city').text();
+        var address = $('#address').val();
+        var noc = $('#final-noc-code').text();
+        if ($('#id-code-1').val() == "true") {
+            document.getElementById("full-text").innerHTML = "<b>CODE 1</b> - ANY UNITS AVALIABLE IN <b>" + city + " </b>AT <b>" + crossroads + " </b>FOR A <b>" + noc + "</b>";
+        }
+        else {
+            document.getElementById("full-text").innerHTML = "ANY UNITS AVALIABLE IN <b>" + city + " </b>AT <b>" + crossroads + " </b>FOR A <b>" + noc + "</b>";
+        }
+    }
+
+    function addTel() {
+        var telnum = $('#tel').val();
+        telnum = telnum.replace(/(\d{3})\-?(\d{3})\-?(\d{4})/, '$1-$2-$3');
+        document.getElementById("input-tel").innerHTML = telnum;
+    }
+
+    function addApt() {
+        var aptNum = $('#apt-num').val();
+        if (aptNum.length > 0) {
+            document.getElementById("input-address").innerHTML += ": Apt " + aptNum;
+        }
+    }
+    var i = 0;
+    function addResponders() {
+        debugger;
+        i++;
+        $('#additional-responders').append('<h4>Additional Responder<\/h4>\r\n<div class=\"row\">\r\n<div class=\"col-lg-9\">\r\n<input id=\"additional-responder' + i + '\" onblur=\"addAdditionalResponder('+i+')\" class=\"form-control\" placeholder=\"Additional Responder\" style=\"width:90%;\" \/>\r\n<\/div>\r\n<div class=\"col-lg-3\">\r\n<button onclick=\"logTheTime(\'additional-responder-arrived-time'+i+'\')\" class=\"btn btn-danger\">Arrived<\/button>\r\n<\/div>\r\n<\/div>');
+    }
+
+    var availableTags = [];
+    @foreach(var desc in Model)
+    {
+        @:availableTags.push("@desc.Key." + " " + "@desc.Value" );
+    }
+        $(function () {
+            $("#noc").autocomplete({
+                source: availableTags
+            });
+    });
+
+
+    window.onload = function () {
+        var input = document.getElementById('address');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+    }
+
+
+    function printPdf() {
+        debugger;
+        var obj = new Object();
+        obj.starttime = $('#demo').text();
+        obj.address = "45";
+        obj.married = true;
+        var jsonStrings = JSON.stringify(obj);
+        $.get('@Url.Action("PrintPdf", "Home")', { text: jsonStrings });
+    }
+</script>
