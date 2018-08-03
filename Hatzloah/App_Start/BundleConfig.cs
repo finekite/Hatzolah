@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace Hatzloah
+namespace Hatzloah.Domain.DTO
 {
     public class BundleConfig
     {

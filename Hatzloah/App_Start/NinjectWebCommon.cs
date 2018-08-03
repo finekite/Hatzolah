@@ -1,6 +1,7 @@
-﻿using Hatzloah.App_Start;
-using Hatzloah.Controllers;
-using Hatzloah.DAL;
+﻿using Hatzloah.DataAccess.DAL;
+using Hatzloah.Domain.DTO.App_Start;
+using Hatzolah.DataAccess;
+using Hatzolah.Domain.Services;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
@@ -12,7 +13,7 @@ using System.Web;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(NinjectWebCommon), "Stop")]
-namespace Hatzloah.App_Start
+namespace Hatzloah.Domain.DTO.App_Start
 {
     public class NinjectWebCommon
     {
@@ -62,7 +63,8 @@ namespace Hatzloah.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            kernel.Bind<HatzolahOrm>().ToSelf().WhenInjectedInto<HomeController>().InSingletonScope().WithConstructorArgument("connectionString", connectionString);
+            kernel.Bind<IHatzolahContext>().To<HatzolahContext>().InSingletonScope().WithConstructorArgument("connectionString", connectionString);
+            kernel.Bind<IHatzolahService>().To<HatzolahService>().InSingletonScope();
         }
     }
 }

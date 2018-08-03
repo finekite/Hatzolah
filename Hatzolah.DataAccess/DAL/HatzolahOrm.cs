@@ -1,7 +1,7 @@
-﻿using Hatzloah.Models;
+﻿
 using System.Data.Entity;
 
-namespace Hatzloah.DAL
+namespace Hatzloah.DataAccess.DAL
 {
     public class HatzolahOrm : DbContext
     {

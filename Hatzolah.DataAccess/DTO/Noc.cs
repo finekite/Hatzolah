@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace Hatzloah.Models
+namespace Hatzloah.DataAccess
 {
     [Table("HatzolahNoc")]
     public class HatzolahNoc

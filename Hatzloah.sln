@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hatzloah", "Hatzloah\Hatzloah.csproj", "{BFA3F5B0-6686-406B-B9E1-1D6CBC5C61C5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hatzolah.Domain", "Hatzolah.Domain\Hatzolah.Domain.csproj", "{4DF86122-7863-4DBA-AC3C-F792F11187FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hatzolah.DataAccess", "Hatzolah.DataAccess\Hatzolah.DataAccess.csproj", "{4A61F24D-1E79-45CD-8C87-B6FC551F654C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{BFA3F5B0-6686-406B-B9E1-1D6CBC5C61C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFA3F5B0-6686-406B-B9E1-1D6CBC5C61C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFA3F5B0-6686-406B-B9E1-1D6CBC5C61C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DF86122-7863-4DBA-AC3C-F792F11187FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DF86122-7863-4DBA-AC3C-F792F11187FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DF86122-7863-4DBA-AC3C-F792F11187FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DF86122-7863-4DBA-AC3C-F792F11187FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A61F24D-1E79-45CD-8C87-B6FC551F654C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A61F24D-1E79-45CD-8C87-B6FC551F654C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A61F24D-1E79-45CD-8C87-B6FC551F654C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A61F24D-1E79-45CD-8C87-B6FC551F654C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
