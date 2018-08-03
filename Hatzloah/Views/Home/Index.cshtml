@@ -270,7 +270,6 @@
                     url: 'http://api.geonames.org/findNearestIntersectionJSON?' + appendurl,
                     crossDomain: true,
                     success: function (data, textStatus, request) {
-                        debugger;
                         $('#loader').hide();
                         document.getElementById("input-address").innerHTML = d;
                         addApt();
@@ -292,7 +291,6 @@
         });
     }
     function addNoc() {
-        debugger;
         $('#loader').show();
         var d = $('#noc').val();
         var splitNoc = d.split(".");
@@ -341,7 +339,6 @@
     }
 
     function addResponder2() {
-        debugger;
         var responder2 = $('#responder-2').val();
         var address = $('#address').val();
         var addressSplit = address.split(",");
@@ -382,7 +379,6 @@
 
 
     function fullText() {
-        debugger;
         var crossroads = $('#input-cross-roads').text();
         var city = $('#input-city').text();
         var address = $('#address').val();
@@ -409,7 +405,6 @@
     }
     var i = 0;
     function addResponders() {
-        debugger;
         i++;
         $('#additional-responders').append('<h4>Additional Responder<\/h4>\r\n<div class=\"row\">\r\n<div class=\"col-lg-9\">\r\n<input id=\"additional-responder' + i + '\" onblur=\"addAdditionalResponder('+i+')\" class=\"form-control\" placeholder=\"Additional Responder\" style=\"width:90%;\" \/>\r\n<\/div>\r\n<div class=\"col-lg-3\">\r\n<button onclick=\"logTheTime(\'additional-responder-arrived-time'+i+'\')\" class=\"btn btn-danger\">Arrived<\/button>\r\n<\/div>\r\n<\/div>');
     }
@@ -433,7 +428,6 @@
 
 
     function printPdf() {
-        debugger;
         var obj = new Object();
         obj.starttime = $('#demo').text();
         obj.address = "45";
