@@ -1,5 +1,7 @@
-﻿using Hatzolah.Domain.Services;
+﻿using Hatzloah.Models;
+using Hatzolah.Domain.Services;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace Hatzloah.Domain.DTO.Controllers
@@ -17,7 +19,7 @@ namespace Hatzloah.Domain.DTO.Controllers
         {
             try
             {
-                var nocs  = hatzolahService.GetAllNocs();
+                var nocs  = hatzolahService.GetAllNocs().Select(x => x.Key + ". " + x.Value).ToArray();
                 return View("Index", nocs);
             }
             catch (InvalidOperationException ex)
@@ -27,26 +29,27 @@ namespace Hatzloah.Domain.DTO.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetNoc(string description)
+        [Route("{nocId}")]
+        public ActionResult GetNoc(string nocId)
         {
-            dynamic noc;
+            var model = new HatzolahNocModel();
 
             try
             {
-                if (!string.IsNullOrEmpty(description))
+                if (!string.IsNullOrEmpty(nocId))
                 {
-                    if (int.TryParse(description, out int id))
+                    if (int.TryParse(nocId, out int id))
                     {
-                        noc = hatzolahService.GetNoc(id);
+                        model.HatzolahNoc = hatzolahService.GetNoc(id);
                     }
                     else
                     {
-                        noc = hatzolahService.GetDefaultNoc(description);
+                        model.HatzolahNoc = hatzolahService.GetDefaultNoc(nocId);
                     }
 
-                    if(noc != null)
+                    if(model.HatzolahNoc != null)
                     {
-                        return PartialView("GetNoc", noc);
+                        return PartialView("GetNoc", model);
                     }
                     else
                     {

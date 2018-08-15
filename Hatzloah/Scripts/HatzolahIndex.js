@@ -28,10 +28,11 @@
             if (status == google.maps.GeocoderStatus.OK) {
                 var latitude = results[0].geometry.location.lat();
                 var longitude = results[0].geometry.location.lng();
-                var geoNamesUrl = 'http://api.geonames.org/findNearestIntersectionJSON?' + "lat=" + latitude + "&lng=" + longitude + "&username=gutezach";
+                var geoNamesUrl = 'http://api.geonames.org/findNearestIntersectionJSON';
+                var params = `lat=${latitude}&lng=${longitude}&username=gutezach`;
                 var headers = { "Accept": "application/json" };
 
-                makeAjaxCall(geoNamesUrl, 'GET', headers, true, null, onGeoNmaesSuccess);
+                makeAjaxCallGet(geoNamesUrl, 'GET', headers, true, params, null, onGeoNmaesSuccess);
             }
         });
     }
@@ -41,6 +42,7 @@
         hideElement('#loader');
         showElement('#cross-roads-title');
 
+        var address = document.getElementById('address').value;
         var elementsToBePopulated = ["input-address", "input-cross-roads", "input-city"];
         var valuesToPopulate = [address, result.intersection.street1 + " and " + result.intersection.street2, result.intersection.placename];
         populateElementsWithValues(elementsToBePopulated, valuesToPopulate);
@@ -55,17 +57,12 @@
         $('.i-frame').empty();
         var url = "https://www.google.com/maps/embed/v1/search?key=AIzaSyBL9zxve1LUJcZLtkulO_ARoR1Qw3NhGWg&q=" + address;
         $('<iframe width= "400" height= "300" frameborder= "0" style= "border:3px" src="' + url + '"></iframe>').appendTo('.i-frame');
-        google.maps.event.addListener(map, 'click', function (event) {
-            alert("Latitude: " + event.latLng.lat() + " " + ", longitude: " + event.latLng.lng());
-        });
     }
 
     function addNoc() {
-
         showElement('#loader');
         var nocId = parseValueFromInput('#noc', '.', 0);
-        makeAjaxCall(getNocUrl, 'GET', null, null, "nocId", nocId, onGetNocSuccess);
-
+        makeAjaxCallGet(getNocUrl, 'GET', null, null, "nocId", nocId, onGetNocSuccess);
     }
 
     function onGetNocSuccess(param) {
@@ -85,27 +82,32 @@
             showElement('#additional-questions-hidden');
             hideElement('#additional-questions-title');
         }
+
+        fullText();
     }
 
-    function addAdditionalResponder(i) {
-        var additionalResponder = $('#additional-responder' + i).val();
-        var address = $('#address').val();
-        var addressSplit = address.split(",");
-        address = addressSplit[0];
+    function addAdditionalResponder(responderCount) {
+        var additionalResponder = $('#additional-responder' + responderCount).val();
         var city = $('#input-city').text();
         var noc = $('#noc').val();
         var aptNum = $('#apt-num').val();
-        $('#additional-responder-input').append('<div class=\"row\"><div class=\"col-lg-6\"><p id=\"input-additional-responder' + i + '\"><\/p><\/div><div class=\"col-lg-6\"><div class=\"row\"><p id=\"input-additional-responder-call-time' + i + '\"><\/p><\/div><div class=\"row\"><p id=\"additional-responder-arrived-time' + i + '\"><\/p><\/div><\/div><\/div>');
+        var address = parseValueFromInput('#address', ",", 0);
+        var responderTextInfo;
+
+        populateDivWithHtmlTemplate("http://localhost:59467/addrespondertemplate.html", '#additional-responder-input');
+
         if (aptNum.length > 0) {
-            document.getElementById("input-additional-responder" + i).innerHTML = additionalResponder + " please proceed to " + address + " Apt: " + aptNum + " in " + city;
+            responderTextInfo = `${additionalResponder} please proceed to ${address} Apt: ${aptNum} in ${city}`;
         }
         else {
-            document.getElementById("input-additional-responder" + i).innerHTML = additionalResponder + " please proceed to " + address + " in " + city;
+            responderTextInfo = `${additionalResponder} please proceed to ${address} in ${city}`;
         }
-        var d = new Date();
-        var responder1time = d.toLocaleTimeString();
-        document.getElementById("input-additional-responder-call-time" + i).innerHTML = additionalResponder + " responded at " + responder1time;
-    }
+
+        populateElementsWithValues(["input-additional-responder" + responderCount], [responderTextInfo])
+
+        var responderRespondedTimeText = `${additionalResponder} responded at ${responderRespondedTime}`
+        logTheTime("input-additional-responder-call-time" + responderCount, responderRespondedTimeText);
+    }  
 
 
     function fullText() {
@@ -134,16 +136,16 @@
         }
     }
 
-    var i = 0;
+    var responderCount = 0;
     function addResponders(e) {
         if (e === null || e == undefined) {
             for (var j = 1; j < 3; j++) {
-                i++;
-                $('#additional-responders').append('<h4>Responder ' + i + '<\/h4>\r\n<div class=\"row\">\r\n<div class=\"col-lg-9\">\r\n<input id=\"additional-responder' + i + '\" onblur=\"addAdditionalResponder(' + i + ')\" class=\"form-control\" placeholder=\"Additional Responder\" style=\"width:90%;\" \/>\r\n<\/div>\r\n<div class=\"col-lg-3\">\r\n<button onclick=\"logTheTime(\'additional-responder-arrived-time' + i + '\')\" class=\"btn btn-danger\">Arrived<\/button>\r\n<\/div>\r\n<\/div>');
+                responderCount++;
+                $('#additional-responders').append('<h4>Responder ' + responderCount + '<\/h4>\r\n<div class=\"row\">\r\n<div class=\"col-lg-9\">\r\n<input id=\"additional-responder' + responderCount + '\" onblur=\"addAdditionalResponder(' + responderCount + ')\" class=\"form-control\" placeholder=\"Additional Responder\" style=\"width:90%;\" \/>\r\n<\/div>\r\n<div class=\"col-lg-3\">\r\n<button onclick=\"logTheTime(\'additional-responder-arrived-time' + responderCount + '\')\" class=\"btn btn-danger\">Arrived<\/button>\r\n<\/div>\r\n<\/div>');
             }
         } else {
-            i++;
-            $('#additional-responders').append('<h4>Responder ' + i + '<\/h4>\r\n<div class=\"row\">\r\n<div class=\"col-lg-9\">\r\n<input id=\"additional-responder' + i + '\" onblur=\"addAdditionalResponder(' + i + ')\" class=\"form-control\" placeholder=\"Additional Responder\" style=\"width:90%;\" \/>\r\n<\/div>\r\n<div class=\"col-lg-3\">\r\n<button onclick=\"logTheTime(\'additional-responder-arrived-time' + i + '\')\" class=\"btn btn-danger\">Arrived<\/button>\r\n<\/div>\r\n<\/div>');
+            responderCount++;
+            $('#additional-responders').append('<h4>Responder ' + responderCount + '<\/h4>\r\n<div class=\"row\">\r\n<div class=\"col-lg-9\">\r\n<input id=\"additional-responder' + responderCount + '\" onblur=\"addAdditionalResponder(' + responderCount + ')\" class=\"form-control\" placeholder=\"Additional Responder\" style=\"width:90%;\" \/>\r\n<\/div>\r\n<div class=\"col-lg-3\">\r\n<button onclick=\"logTheTime(\'additional-responder-arrived-time' + responderCount + '\')\" class=\"btn btn-danger\">Arrived<\/button>\r\n<\/div>\r\n<\/div>');
         }
     }
 

@@ -10,12 +10,21 @@
         $(elementToHide).hide();
     }
 
-    function makeAjaxCall(url, httpType, headers, crossDomain, argumentName, data, successCallBack) {
+    function makeAjaxCallGet(url, httpType, headers, crossDomain, paramName, data, successCallBack) {
+
+        // temp fix. Ideally create a method to construct the url with muliple params
+        var url;
+        if (data != null) {
+            url = url + "?" + paramName + "=" + data;
+        } else {
+            url = url + "?" + paramName;
+        }
+
         $.ajax({
             async: false,
             headers: headers,
             type: httpType,
-            url: url + "?" + argumentName + "=" + data,
+            url: url,
             crossDomain: crossDomain,
             success: function (result, textStatus, request) {
                 successCallBack(result);
@@ -26,10 +35,15 @@
         })
     }
 
-    function logTheTime(id) {
+    function logTheTime(id, optionalTextToDisplayWithTime = '') {
         var date = new Date();
         var time = date.toLocaleTimeString();
-        document.getElementById(id).innerHTML = time;
+
+        if (optionalTextToDisplayWithTime.length > 0) {
+            document.getElementById(id).innerHTML = optionalTextToDisplayWithTime + time;
+        } else {
+            document.getElementById(id).innerHTML = time;
+        }
     }
 
     function showElement(elementToShow) {
@@ -38,7 +52,7 @@
 
     function populateElementsWithValues(elementstoBePoplulated, valuesToPopulate) {
         $.each(elementstoBePoplulated, function (index, value) {
-            document.getElementById(elementstoBePoplulated).innerHTML = valuesToPopulate[index];
+            document.getElementById(value).innerHTML = valuesToPopulate[index];
         });
     }
 
@@ -46,4 +60,20 @@
         var elementValue = $(inputClassOrId).val();
         var splitValue = elementValue.split(characterToSplitBy);
         return splitValue[elementAtToExtract];
+    }
+
+    function stringFormat(stringToFormat, argument) {
+        if (stringToFormat != null && argument != null) {
+            var character = new RegExp("\\{0\\}");
+            stringToFormat = stringToFormat.replace(character, argument)
+        }
+        return stringToFormat;
+    }
+
+    function populateDivWithHtmlTemplate(url, divToPopulate) {
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                $(divToPopulate).append(stringFormat(html, responderCount));
+            });
     }

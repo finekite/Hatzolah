@@ -1,9 +1,9 @@
-﻿@model Hatzloah.DataAccess.HatzolahNoc
+﻿@model Hatzloah.Models.HatzolahNocModel
 
-    <p><b>NOC: </b><div id="final-noc-code">@Model.Noc</div></p>
-    <p><b>TONE: </b>@Model.Tone</p>
-    <p><b>INSTRUCTIONS: </b> @Model.Instructions</p>
-    @if (Model.CodeOneFlag)
+    <p><b>NOC: </b><div id="final-noc-code">@Model.HatzolahNoc.Noc</div></p>
+    <p><b>TONE: </b>@Model.HatzolahNoc.Tone</p>
+    <p><b>INSTRUCTIONS: </b> @Model.HatzolahNoc.Instructions</p>
+    @if (Model.HatzolahNoc.CodeOneFlag)
     {
         @Html.Hidden("true", "true", new { id = "id-code-1"})
     }
@@ -12,11 +12,11 @@
         @Html.Hidden("false", "false", new { id = "id-code-1" })
     }
 
-    @if (Model.Question != null && Model.Question != string.Empty)
+    @if (Model.HatzolahNoc.Question != null && Model.HatzolahNoc.Question != string.Empty)
     {
         <div id="question" class="row" hidden>
             <div class="col-lg-9">
-                <p>@Model.Question.ToUpper()</p>
+                <p>@Model.HatzolahNoc.Question.ToUpper()</p>
             </div>
             <div class="col-lg-3">
                 <input id="input-for-additional-questions" class="form-control" type="text" />

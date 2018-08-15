@@ -28,6 +28,7 @@ namespace Hatzloah.DataAccess
 
         public bool CodeOneFlag { get; set; }
 
+        [NotMapped]
         public string Question { get; set; }
 
     }
