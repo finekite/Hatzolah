@@ -14,7 +14,7 @@
 
         // temp fix. Ideally create a method to construct the url with muliple params
         var url;
-        if (data != null) {
+        if (data !== null) {
             url = url + "?" + paramName + "=" + data;
         } else {
             url = url + "?" + paramName;
@@ -32,7 +32,7 @@
             error: function (txhr, ajaxOptions, thrownError) {
                 console.log(thrownError);
             }
-        })
+        });
     }
 
     function logTheTime(id, optionalTextToDisplayWithTime = '') {
@@ -62,18 +62,28 @@
         return splitValue[elementAtToExtract];
     }
 
-    function stringFormat(stringToFormat, argument) {
-        if (stringToFormat != null && argument != null) {
-            var character = new RegExp("\\{0\\}");
-            stringToFormat = stringToFormat.replace(character, argument)
+    function stringFormat(stringToFormat, valuesToPopulate) {
+        if (stringToFormat !== null && valuesToPopulate !== null) {
+            for (var value in valuesToPopulate) {
+                var character = new RegExp("\\{" + value + "\\}", 'g');
+                stringToFormat = stringToFormat.replace(character, valuesToPopulate[value]);
+            }
+            
         }
         return stringToFormat;
     }
 
-    function populateDivWithHtmlTemplate(url, divToPopulate) {
+    function populateDivWithHtmlTemplate(url, divToPopulate, valuesToPopulate, onSuccessPopulateHtml = null) {
         fetch(url)
             .then(response => response.text())
             .then(html => {
-                $(divToPopulate).append(stringFormat(html, responderCount));
+                html = stringFormat(html, valuesToPopulate);
+                if (onSuccessPopulateHtml !== null) {
+                    $(divToPopulate).append(html);
+                    onSuccessPopulateHtml(valuesToPopulate);
+                }
+                else {
+                    $(divToPopulate).empty().append(html);
+                }
             });
     }

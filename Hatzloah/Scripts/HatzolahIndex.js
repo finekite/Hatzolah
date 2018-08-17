@@ -1,8 +1,8 @@
 ﻿
-    window.onload = function () {
-        var input = document.getElementById('address');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-    }
+window.onload = function () {
+    var input = document.getElementById('address');
+    var autocomplete = new google.maps.places.Autocomplete(input);
+};
 
     function addNocs(nocs) {
         var availableTags = [];
@@ -25,7 +25,7 @@
 
         geocoder.geocode({ 'address': address }, function (results, status) {
 
-            if (status == google.maps.GeocoderStatus.OK) {
+            if (status === google.maps.GeocoderStatus.OK) {
                 var latitude = results[0].geometry.location.lat();
                 var longitude = results[0].geometry.location.lng();
                 var geoNamesUrl = 'http://api.geonames.org/findNearestIntersectionJSON';
@@ -73,7 +73,7 @@
 
         var question = $("#question").html();
 
-        if (question != null && question.length > 0) {
+        if (question !== null && question !== undefined && question.length > 0) {
             document.getElementById("additional-questions").innerHTML = question;
             showElement('#additional-questions-hidden');
             showElement('#additional-questions-title');
@@ -86,15 +86,18 @@
         fullText();
     }
 
-    function addAdditionalResponder(responderCount) {
-        var additionalResponder = $('#additional-responder' + responderCount).val();
+    function addAdditionalResponder(responderNumber) {
+
+        populateDivWithHtmlTemplate("http://localhost:59467/addrespondertemplate.html", '#additional-responder-input', [responderNumber], onSuccessPopulateHtml);
+    }  
+
+    function onSuccessPopulateHtml(responderNumber) {
+        var additionalResponder = $('#additional-responder' + responderNumber).val();
         var city = $('#input-city').text();
         var noc = $('#noc').val();
-        var aptNum = $('#apt-num').val();
         var address = parseValueFromInput('#address', ",", 0);
+        var aptNum = $('#apt-num').val();
         var responderTextInfo;
-
-        populateDivWithHtmlTemplate("http://localhost:59467/addrespondertemplate.html", '#additional-responder-input');
 
         if (aptNum.length > 0) {
             responderTextInfo = `${additionalResponder} please proceed to ${address} Apt: ${aptNum} in ${city}`;
@@ -103,11 +106,11 @@
             responderTextInfo = `${additionalResponder} please proceed to ${address} in ${city}`;
         }
 
-        populateElementsWithValues(["input-additional-responder" + responderCount], [responderTextInfo])
+        populateElementsWithValues(["input-additional-responder" + responderNumber], [responderTextInfo]);
 
-        var responderRespondedTimeText = `${additionalResponder} responded at ${responderRespondedTime}`
-        logTheTime("input-additional-responder-call-time" + responderCount, responderRespondedTimeText);
-    }  
+        var responderRespondedTimeText = `${additionalResponder} responded at`;
+        logTheTime("input-additional-responder-call-time" + responderNumber, responderRespondedTimeText);
+    }
 
 
     function fullText() {
@@ -115,12 +118,8 @@
         var city = $('#input-city').text();
         var address = $('#address').val();
         var noc = $('#final-noc-code').text();
-        if ($('#id-code-1').val() == "true") {
-            document.getElementById("full-text").innerHTML = "<b>CODE 1</b> - ANY UNITS AVALIABLE IN <b>" + city + " </b>AT <b>" + crossroads + " </b>FOR A <b>" + noc + "</b>";
-        }
-        else {
-            document.getElementById("full-text").innerHTML = "ANY UNITS AVALIABLE IN <b>" + city + " </b>AT <b>" + crossroads + " </b>FOR A <b>" + noc + "</b>";
-        }
+        var code1 = $('#id-code-1').val() === "true" ? "Code - " : "";
+        populateDivWithHtmlTemplate("http://localhost:59467/responderinfotemplate.html", '#full-text', [code1 , city, crossroads, noc])
     }
 
     function addTel() {
@@ -138,7 +137,7 @@
 
     var responderCount = 0;
     function addResponders(e) {
-        if (e === null || e == undefined) {
+        if (e === null || e === undefined) {
             for (var j = 1; j < 3; j++) {
                 responderCount++;
                 $('#additional-responders').append('<h4>Responder ' + responderCount + '<\/h4>\r\n<div class=\"row\">\r\n<div class=\"col-lg-9\">\r\n<input id=\"additional-responder' + responderCount + '\" onblur=\"addAdditionalResponder(' + responderCount + ')\" class=\"form-control\" placeholder=\"Additional Responder\" style=\"width:90%;\" \/>\r\n<\/div>\r\n<div class=\"col-lg-3\">\r\n<button onclick=\"logTheTime(\'additional-responder-arrived-time' + responderCount + '\')\" class=\"btn btn-danger\">Arrived<\/button>\r\n<\/div>\r\n<\/div>');
