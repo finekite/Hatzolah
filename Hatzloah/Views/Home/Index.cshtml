@@ -1,4 +1,4 @@
-﻿
+﻿@using Hatzloah.Models
 @{
     ViewBag.Title = "Hatzolah Portal";
 }
@@ -194,13 +194,14 @@
     @*@Html.ActionLink("Prin Pdf", "PrintPdf", "Home", new { id = "printPDfText()" })*@
     <button onclick="printPdf()" class="col-lg-12 btn btn-danger">Print Pdf (Doesn't work yet)</button>
 </div>
+
+@Html.Partial("HtmlTemplatesUrls", new HtmlTemplateUrls())
+
 <script src="@Url.Content("~/Scripts/HatzolahIndex.js")" type="text/javascript"></script>
 <script>
-
     var nocList = @Html.Raw(Json.Encode(Model));
     var getNocUrl = '@Url.Action("GetNoc", "Home")';
     addNocs(nocList);
     addResponders();
-
 </script>
 

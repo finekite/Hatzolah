@@ -75,15 +75,15 @@
 
     function populateDivWithHtmlTemplate(url, divToPopulate, valuesToPopulate, onSuccessPopulateHtml = null) {
         fetch(url)
-            .then(response => response.text())
-            .then(html => {
-                html = stringFormat(html, valuesToPopulate);
-                if (onSuccessPopulateHtml !== null) {
-                    $(divToPopulate).append(html);
-                    onSuccessPopulateHtml(valuesToPopulate);
-                }
-                else {
-                    $(divToPopulate).empty().append(html);
-                }
-            });
-    }
+                .then(response => response.text())
+                .then(html => {
+                    html = stringFormat(html, valuesToPopulate);
+                    if (onSuccessPopulateHtml !== null) {
+                        $(divToPopulate).append(html);
+                        onSuccessPopulateHtml(valuesToPopulate);
+                    }
+                    else {
+                        $(divToPopulate).append(html);
+                    }
+                });
+        }
