@@ -11,9 +11,7 @@
     }
 
     function makeAjaxCallGet(url, httpType, headers, crossDomain, paramName, data, successCallBack) {
-
         // temp fix. Ideally create a method to construct the url with muliple params
-        var url;
         if (data !== null) {
             url = url + "?" + paramName + "=" + data;
         } else {
@@ -68,7 +66,6 @@
                 var character = new RegExp("\\{" + value + "\\}", 'g');
                 stringToFormat = stringToFormat.replace(character, valuesToPopulate[value]);
             }
-            
         }
         return stringToFormat;
     }
@@ -83,7 +80,7 @@
                         onSuccessPopulateHtml(valuesToPopulate);
                     }
                     else {
-                        $(divToPopulate).append(html);
+                        $(html).appendTo(divToPopulate);
                     }
                 });
         }

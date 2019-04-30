@@ -61,18 +61,18 @@
 
         populateElementsWithValues(["input-additional-responder" + responderNumber], [responderTextInfo]);
 
-        var responderRespondedTimeText = `${additionalResponder} responded at`;
+        var responderRespondedTimeText = `${additionalResponder} responded at `;
         logTheTime("input-additional-responder-call-time" + responderNumber, responderRespondedTimeText);
     }
-
 
     function fullText() {
         var crossroads = $('#input-cross-roads').text();
         var city = $('#input-city').text();
         var address = $('#address').val();
         var noc = $('#final-noc-code').text();
-        var code1 = $('#id-code-1').val() === "true" ? "Code - " : "";
-        populateDivWithHtmlTemplate(responderInfoUrl, '#full-text', [code1 , city, crossroads, noc])
+        var code1 = $('#id-code-1').val() === "true" ? "Code 1 - " : "";
+        $('#full-text').empty();
+        populateDivWithHtmlTemplate(responderInfoUrl, '#full-text', [code1, city, crossroads, noc]);
     }
 
     function addTel() {
@@ -93,11 +93,11 @@
         if (e === null || e === undefined) {
             for (var j = 1; j < 3; j++) {
                 responderCount++;
-                populateDivWithHtmlTemplate(additionalResponderUrl, "#additional-responders", [responderCount], null)
+                populateDivWithHtmlTemplate(additionalResponderUrl, "#additional-responders", [responderCount], null);
             }
         } else {
             responderCount++;
-            populateDivWithHtmlTemplate(additionalResponderUrl, "#additional-responders", [responderCount], null)
+            populateDivWithHtmlTemplate(additionalResponderUrl, "#additional-responders", [responderCount], null);
         }
     }
 

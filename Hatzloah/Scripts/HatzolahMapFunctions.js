@@ -15,7 +15,7 @@
             if (status === google.maps.GeocoderStatus.OK) {
                 var latitude = results[0].geometry.location.lat();
                 var longitude = results[0].geometry.location.lng();
-                var geoNamesUrl = 'http://api.geonames.org/findNearestIntersectionJSON';
+                var geoNamesUrl = 'https://secure.geonames.org/findNearestIntersectionJSON';
                 var params = `lat=${latitude}&lng=${longitude}&username=gutezach`;
                 var headers = { "Accept": "application/json" };
 
@@ -36,7 +36,6 @@
 
         addApt();
         popUpGooleMapsIframe(address);
-        fullText();
     }
 
     function popUpGooleMapsIframe(address) {
